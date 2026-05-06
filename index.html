@@ -1,296 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A.I.S||Landing-page</title>
-  <style>
-     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 2rem auto; padding: 0 1rem; background-image: url('front.jpg');  background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; font-family: Arial, sans-serif; color: #000;}
-        header, main, footer { margin-bottom: 2rem; }
-        dialog { border-radius: 12px; border: 1px solid #ccc; padding: 2rem; text-align: center; }
-        button{border-radius: 40px; height: 42px; width: 89px; background-color: black;  border: none; padding: 10px; margin: 0 5px; color: #fff;}
-        fieldset{border-radius: 40px; background: yellow;}
-        .event{ height: 209px; width:206px; border-radius: 24px;}
-        #th{ width: 310px; text-align:center; justify-self:center;}
-        #login{ border-radius: 34px; height: 30px; width: 65px; background: #fff;}
-        input{ border-radius: 34px; border-top: orange; border-bottom: orange; background: #fff;}
-        .card-container { display: flex; overflow: hidden; }
-        .cards-wrapper { display: flex; animation: slide 70s infinite; }
-        .card { flex: 0 0 auto; width:auto;}
-        @keyframes slide { 0%{ transform: translateX(0); } 100% { transform: translateX(-490%); }}
-         #v img{ height: 104px; border-radius: 10px; margin:3px;}
-         #calculator{ width: 310px; text-align:center; justify-self:center; margin-top: 5px;}
-         h1, p, h2, h3, h4{ color: #000;}
-         #deep { background: yellow; text-align: center; height:400px; }
-         nav ul{ list-style-type: none; display: flex; justify-content: flex-end; margin: 0; padding: 0;}
-         nav ul li a {display: block; color: white; padding: 13px 10px; text-decoration: none; transition: background-color 0.3s;}
-         nav img{ height: 44px;}
-         #feedback{ border-radius: 14px; background: #fff;}
-         #grade{ border-radius: 12px; background: white;}
-          video, audio { width: 100%; margin-top: 10px; border-radius: 34px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afahjoy International School | Excellence in Kasoa</title>
+    <link rel="stylesheet" href="https://cloudflare.com"/>
+    <style>
+        :root { --yellow: #FFD700; --black: #0D0D0D; --white: #FFFFFF; --glass: rgba(255, 255, 255, 0.08); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); transition: 0.3s; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 25px 8%; position: sticky; top: 0; z-index: 1000; animation: fadeInDown 1s ease;  height: 23px;}
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--yellow); text-transform: uppercase; }
+        nav ul { display: flex; list-style: none; gap: 10px; }
+        nav a { color: var(--white); text-decoration: none; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--yellow); }
+        .hero { text-align: center; padding: 140px 5% 100px; animation: zoomIn 1.2s ease; }
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; text-transform: uppercase; }
+        .hero h1 span { color: var(--yellow); }
+        .hero p { font-size: 1.3rem; color: #ccc; max-width: 800px; margin: 0 auto 30px; }
+        .btn { background: var(--yellow); color: var(--black); padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; display: inline-block; }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 0 25px var(--yellow); }
+        .content-section { padding: 80px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { padding: 40px; border-radius: 25px; transition: 0.4s; }
+        .card:hover { transform: scale(1.03); background: rgba(255, 255, 255, 0.12); }
+        .card h3 { color: var(--yellow); margin-bottom: 15px; font-size: 1.6rem; }
+        .social-embed { text-align: center; padding: 50px 8%; }
+        iframe { border-radius: 15px; border: none; max-width: 100%; box-shadow: 0 0 20px rgba(0,0,0,0.4); margin: 20px; }
+        footer { background: #000; padding: 60px 8%; text-align: center; border-top: 1px solid #333; }
+        @keyframes fadeInDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes zoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        button{ background-color:yellow; border-radius:28px; border:none; width: 60px; height: 28px; }
+    </style>
 </head>
 <body>
-  <main>
-    <header>
-      <nav style="justify-self: right; background-color: #000; border-radius:34px; height: 55px; line-heigth: 1.6; max-width: 800px; margin: 2rem auto; padding: 0 1rem; padding:1 4px;">
+    <nav class="glass">
+        <div class="logo">Afahjoy</div>
         <ul>
-          <li><a href="about.html"><button id="login" style="padding: 0;"><p style="color:#000;">About</p></button></a></li>
-          <li><a href="contact.html"><button id="login" style="padding: 0;"><p style="color:#000;">contact</p></button></a></li>
-           <li><a href="blog.html"><button id="login" style="padding: 0;"><p style="color:#000;">blog</p></button></a></li>
-           </ul>
+            <li><a href="#about"><button><b>About</b></button></a></li>
+            <li><a href="#contact"><button><b>Contact</b></button></a></li>
+             <li><a href="https://afahjoyintlschool.com/gallery-alumni.php"><button><b>Alumni</b></button></a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Service to <span>God</span> & Country</h1>
+        <p>Providing a first-class modern education at Great Lamptey Mills, Kasoa. Our mission is to give the right of education to every child in a conducive environment.</p>
+        <a href="#contact" class="btn">Apply Now - GHS 400</a>
     </header>
-    
-      
-    <section id="article">
-            <article>
-              
-                <h1>AFAHJOY INTERNATIONAL SCHOOL</h1>
-                 <p>Welcome to <abbr title="Afahjoy International School">A.I.S</abbr>, an ultramodern campus, where we train your wards in a fun and egaging way with modern facilities.</p>
-            </article>
-    </section>
-    
-    <section id="interactive">
-      <fieldset>
-        
-            <h2>UP COMING J.H.S TRIP</h2>
-            <details>
-                <summary>Click to see more details</summary>
-              <img style="height:64px; border-radius:24px;" src="kernel.png"><h1>A.I.S</h1>
-              <u><h3>EXCURSION TO DESPITE AUTOMOBILE MUSEUM AND SAFARI VALLEY ECO RESORT</h3></u>
-                <p>We are informing you that our pupils will be visiting the Despite Automobile Museum and Safari Valley Eco Resort on May 6, 2026. This educational trip aims to provide a fun and interactive learning experience for our pupils.</p>
-              HERE ARE THE DETAILS
-              <ul>
-                <li><h4>Date: May 6, 2026</h4></li>
-                 <li><h4>Time: 6:30am (Departure)</h4></li>
-                 <li><h4>Cost: GH¢900 (Deadline: Tuesday, 28th April, 2026)</h4></li>
-                 <li><h4>Uniform: School Uniform (yellow and ash)</h4></li>
-              </ul>
-              <p>We'll share more details closer to the date.</p>
-              <p>Your child's education and safety is our priority</p>
-              <p>Published on: <time datetime="2026-03-21">March 21, 2026</time></p>
-            </details>
-    </fieldset>
-       <button onclick="document.getElementById('myDialog').showModal()" style="margin-top:20px;">seasons</button>
-            <dialog id="myDialog">
-                <p>ON GOING SEASONS</p>
-               <div>
-                <img class="event" src="event.jpg">
-              </div>
-              
-              <label for="load">Season</label>
-                <progress id="load" value="98" max="100">98%</progress><h4>98%</h4>
-              <marfo style="font-weight:bolder;">A.I.S wishes all muslims Eid Mubarak</marfo>
-                <button onclick="document.getElementById('myDialog').close()">Close</button>
-            </dialog>
-           
-        </section>
-    <section id="deep2" style="margin-top: 25px;">
-      <fieldset id="deep">
-        <label for="deep" style="font-weight: bolder;"><abbr title="AFAHJOY INTERNATIONAL SCHOOL" style="font-weight: bolder;">A.I.S</abbr>  Alumni</label>
-                <video controls poster="front.jpg">
-                <source src="school-event.mp4" type="video/mp4">
-                <track label="English" kind="subtitles" srclang="en" src="captions.vtt" default>
-                Your browser does not support the video tag.
-            </video>
-         <audio controls>
-                <source src="message.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-      </fieldset>
-    </section>
-    
-  </main>
-  
-  <footer>
-     <section>
-      <div class="card-container">
-  <div class="cards-wrapper">
-  
-    <div id="v">
-      <img src="kernel.png">
-      <h5>Logo</h5>
-    </div>
-    <div id="v">
-      <img src="ucmas.png">
-      <h5>awards</h5>
-    </div>
-    <div id="v">
-      <img src="aseda.jpg">
-      <h5>MegaWorship</h5>
-    </div>
-    <div id="v">
-      <img src="mega.jpg">
-      <h5>A.I.S Sports</h5>
-    </div>
-    <div id="v">
-      <img src="event.jpg">
-    </div>
-    <div id="v">
-      <img src="">
-    </div>
-    <div id="v">
-     <img src="">
-    </div>
-  </div>
-</div>
-       </section>
-    
-      <section>
-      <div class="card-container">
-  <div class="cards-wrapper">
-    <div id="v">
-      <img src="yard.jpg">
-      <h5>yard</h5>
-    </div>
-    <div id="v">
-      <img src="yard2.jpg">
-      <h5>yard</h5>
-    </div>
-    <div id="v">
-      <img src="hallway.jpg">
-      <h5>hallway</h5>
-    </div>
-    <div id="v">
-      <img src="Eventspace.jpg">
-      <h5>event space</h5>
-    </div>
-    <div id="v">
-      <img src="IT.jpg">
-      <h5>IT LAB</h5>
-    </div>
-    <div id="v">
-      <img src="science.jpg">
-      <h5>science Lab</h5>
-    </div>
-    <div id="v">
-     <img src="basket.jpg">
-      <h5>B-ball court</h5>
-    </div>
-    <div id="v">
-     <img src="library.jpg">
-      <h5>library</h5>
-    </div>
-    <div id="v">
-     <img src="front.jpg">
-      <h5>frontview</h5>
-    </div>
-  </div>
-</div>
 
-    
-     <section id="form">
-      <h5 style="text-align: center;">To be updated on school event fill the following forms</h5>
-       <fieldset id="th">
-         <legend>Forms</legend>
-         <label for="email">*Email*</label>
-         <input type="email" placeholder="john@example.com" name="email" id="email"><br>
-         <label for="phone">*Phone*</lable>
-         <input type="tel" placeholder="phone number" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" inputmode="decimal"><br>
-        
-         <label for="password">*Password*</lable>
-         <input type="password" placeholder="password" id="password" name="password"><br>
-         <a href="#"><button>submit</button></a>
-       </fieldset>
-      
-       <fieldset id="calculator" name="calc" style="text-align: center;">
-         <details>
-           <summary>budget calculator</summary>
-          <legend> budget-calculator(multiplyer)</legend>
-         <form oninput="total.value=parseInt(a.value)*parseInt(b.value)">
-    budget: <input type="number" id="a" value="17" placeholder="budget"> <br>
-    Days/Student: <input type="number" id="b" value="2" placeholder="Days/Student"> <br>
-    <output name="total" for="a b">85</output>GH¢
-  </form>
-         <div style="margin-top: 20px;">
-                    <label>(sum)</label><br>
-              budget:  <input type="number" id="a" value="50"> + 
-              Days/Students:   <input type="number" id="b" value="50"> = 
-                    <output name="result" for="a b" style="font-weight: bold;">100</output>
-                </div>
-         </details>
-       </fieldset>
+    <section id="about" class="content-section">
+        <div class="card glass">
+            <h3>Founder's Vision</h3>
+            <p>Born from a divine message, Afahjoy was created as a nurturing calling to provide quality education where kids thrive and feel secure.</p>
+        </div>
+        <div class="card glass">
+            <h3>Elite Programs</h3>
+            <p>Home to the AIS Cadet Corps, vibrant cultural dancers, and annual Career Days where students showcase their talents.</p>
+        </div>
     </section>
-        <fieldset style="text-align: center; margin-top: 15px; width:  310px; justify-self:center;">
-          <details>
-          <summary>Want To enroll your ward</summary>
-          <h5>enroll student</h5>
-          <label for="name">Name*</label>
-          <input type="name" placeholder="ward's name" name="name">
-          <form oninput="result.value=parseInt(a.value)+parseInt(b.value)"></form>
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" style="width: 196px; border-radius: 34px; background: white; border:none;"><br>
-                    <option value="Male">Male</option>
-                    <option value="Female" selected>Female</option>
-                    <option value="Unspecified">Unspecified</option>
-                </select>
-           
-             <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
-                <label for="age">Age</label>
-                <select id="age" name="age" style="width: 196px; border-radius: 34px; background: white; border:none;" ><br>
-                    <option value="2yrs-5yrs">2yrs-5yrs</option>
-                    <option value="6yrs-10yrs" selected>6yrs-10yrs</option>
-                    <option value="11yrs-13yrs">11yrs-13yrs</option>
-                    <option value="14yrs-16yrs">14yrs-16yrs</option>
-                    <option value="17yrs-19yrs">17yrs-19yrs</option>
-                </select>
-               
-              <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
-                <label for="campus">Campus</label>
-                <select id="campus" name="campus" style="width: 196px; border-radius: 34px; background: white; border:none;" ><br>
-                    <option value="pre-school">pre-school</option>
-                    <option value="Kindergarten" selected>kindergarten</option>
-                    <option value="lower-primary (year1-year3)">lower-primary (year1-year3)</option>
-                    <option value="upper-primary (year4-year6)">upper-primary (year4-year6)</option>
-                    <option value="J.H.S (1-3)">J.H.S (1-3)</option>
-                </select>  
-                <button type="submit">submit</button><br>
-        </fieldset>
 
-  </footer>
-              
-        <section>
-          <fieldset style="text-align: center;">
-            <h4>Give us a feedback on your experience with the school</h4>
-            <label for="feedback">Detailed Feedback:</label><br>
-            <textarea id="feedback" name="feedback" rows="4" cols="37"   placeholder="Tell us more..."></textarea>
-            
-            <br><br>
-            <label for="grade">Select feedback topic:</label>
-            <select id="grade">
-                <optgroup label="feedback topics">
-                    <option value="facility">facility</option>
-                    <option value="religion">Religion</option>
-                    <option value="training">Training</option>
-                    <option value="other">other</option>
-                </optgroup>
-            </select>
-            <button type="submit">submit</button>
-          </fieldset>
-        </section>
-            
-            <fieldset style="text-align: center; margin-top: 25px;">
-              <div style="background: white; border-radius: 12px;">
-                <h2>Our external site</h2>
-                <iframe src="https://afahjoyintlschool.com/" width="100%" height="500px" style="border:1px solid #ccc; border-radius: 22px;"></iframe>
-                <button>visit</button>
-            </div>
-                  <p style="text-decoration: none;">&copy; AFAHJOY INT. SCHOOL</p>
-    <address>
-            Contact contact the school at: <br>
-            <a href="info@afahjoy.edu">info@afahjoy.edu</a><br>
-            Accra, Ghana
-        </address>
-    <a href="#">Fees policy</a><br>
-    <a href="#">Achievements</a><br>
-    <a href="#">Facilities</a><br>
-            </fieldset>
-            
-            
-          <script type="module">
-          function welcome() {
-  console.log("Welcome to A.I.S");
-}
-          </script>
+    <section id="social" class="social-embed glass" style="margin: 0 8% 80px;">
+        <h2 style="color:var(--yellow); font-size: 2.5rem; margin-bottom: 30px;">Social Presence</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+            <!-- Social Link Placeholders with indexed URLs -->
+            <a href="https://www.facebook.com/p/Afahjoy-International-School-100066562507950/" target="_blank" class="btn" style="margin: 10px;">Facebook Feed</a>
+            <a href="https://www.instagram.com/afahjoy_a_i_s/" target="_blank" class="btn" style="margin: 10px;">Instagram Highlights</a>
+            <a href="https://www.tiktok.com/discover/afahjoy-international-school-kasoa" target="_blank" class="btn" style="margin: 10px;">TikTok Moments</a>
+        </div>
+        <p style="margin-top: 20px; font-style: italic; color: #aaa;">Explore our vibrant student life, from Wednesday uniforms to the Creative Arts Center.</p>
+    </section>
+  
+    <section id="maps">
+        <iframe src="https://www.google.com/maps/search/?api=1&query=Afahjoy%20International%20School%20(%20Kasoa%20Lamptey)%20Great%20Lamptey%20Mills%20Senior%20High%20School%2C%20Kasoa%2C%20Ghana"></iframe>
+    </section>
+
+    <footer id="contact">
+        <h2 style="color:var(--yellow); margin-bottom: 20px;">Contact Us</h2>
+        <p>📍 Location: Great Lamptey Mills, off Obom Road, Kasoa</p>
+        <p>📞 +233 (0) 24 460 7843 | +233 (0) 24 625 8910</p>
+        <p>📧 contact@afahjoyintlschool.com</p>
+        <p style="margin-top: 40px; font-size: 0.9rem; color: #555;">&copy; 2026 Afahjoy International School. All Rights Reserved.</p>
+    </footer>
 </body>
-                                                    </html>
+  </html>
+                  
