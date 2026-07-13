@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe | Afahjoy International School</title>
+<link rel="icon" type="image/png" href="1772741208119.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0a;
+    --card: #161616;
+    --card-2: #101010;
+    --border: #2a2a2a;
+    --yellow: #f7c600;
+    --black-2: #1a1a1a;
+    --text: #f4f6fb;
+    --text-dim: #9aa4c0;
+    --text-faint: #6b6b6b;
+    --blue-o: #4fa8ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text); font-family:'Plus Jakarta Sans', sans-serif;
+    min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;
+  }
+  h1,.brand{font-family:'Sora', sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  body::before{
+    content:"";position:fixed;top:-200px;right:-150px;width:500px;height:500px;
+    background:radial-gradient(circle, rgba(247,198,0,0.16), transparent 70%);z-index:-1;
+  }
+  body::after{
+    content:"";position:fixed;bottom:-250px;left:-150px;width:500px;height:500px;
+    background:radial-gradient(circle, rgba(247,198,0,0.08), transparent 70%);z-index:-1;
+  }
+
+  header{padding:16px; border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:var(--yellow);
+    background:var(--card);border:1px solid var(--border);padding:7px 16px 7px 7px;border-radius:999px;}
+  .brand-logo{width:26px;height:26px;border-radius:8px;object-fit:cover;}
+  .back-link{font-size:13.5px;font-weight:600;color:var(--text-dim);padding:9px 16px;border-radius:999px;border:1px solid var(--border);}
+  .back-link:hover{color:var(--text);border-color:var(--yellow);}
+
+  main{flex:1; display:flex; align-items:center; justify-content:center; padding:36px 16px;}
+  .game-shell{width:100%; max-width:420px;}
+
+  .game-head{text-align:center; margin-bottom:20px;}
+  .game-head h1{font-size:26px; font-weight:800;}
+  .game-head p{color:var(--text-dim); font-size:13.5px; margin-top:6px;}
+
+  .mode-tabs{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px;
+    background:var(--card); border:1px solid var(--border); border-radius:999px; padding:5px; margin-bottom:18px;
+  }
+  .mode-tab{
+    border:none; background:transparent; color:var(--text-dim); font-weight:700; font-size:13px;
+    padding:10px 6px; border-radius:999px; cursor:pointer; transition:.2s;
+  }
+  .mode-tab.active{background:var(--yellow); color:#0a0a0a;}
+
+  .scoreboard{
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px;
+  }
+  .score-card{
+    background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 8px; text-align:center;
+  }
+  .score-card.active-turn{border-color:var(--yellow);}
+  .score-card .label{font-size:11px; font-weight:700; color:var(--text-faint); text-transform:uppercase; letter-spacing:.03em;}
+  .score-card .value{font-family:'Sora',sans-serif; font-size:22px; font-weight:800; margin-top:4px;}
+  .score-card.x .value{color:var(--yellow);}
+  .score-card.o .value{color:var(--blue-o);}
+  .score-card.draw .value{color:var(--text-dim);}
+
+  .status-bar{
+    text-align:center; font-size:14px; font-weight:700; margin-bottom:16px; min-height:20px; color:var(--text);
+  }
+  .status-bar.win{color:var(--yellow);}
+
+  .board{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+    background:var(--card); border:1px solid var(--border); border-radius:20px; padding:10px;
+    aspect-ratio:1/1;
+  }
+  .cell{
+    background:var(--card-2); border:1px solid var(--border); border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sora',sans-serif; font-size:clamp(28px,8vw,44px); font-weight:800;
+    cursor:pointer; user-select:none; transition:.15s;
+  }
+  .cell:hover:not(.taken){border-color:var(--yellow); background:#1c1c1c;}
+  .cell.taken{cursor:default;}
+  .cell.x{color:var(--yellow);}
+  .cell.o{color:var(--blue-o);}
+  .cell.win-cell{background:rgba(247,198,0,0.14); border-color:var(--yellow);}
+
+  .controls{display:flex; gap:10px; margin-top:18px;}
+  .btn{
+    flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:700; font-size:14px; padding:13px 16px; border-radius:999px; border:none; cursor:pointer;
+  }
+  .btn-primary{background:var(--yellow); color:#0a0a0a;}
+  .btn-primary:hover{background:#ffd633;}
+  .btn-ghost{background:transparent; color:var(--text); border:1px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--yellow);}
+
+  footer{text-align:center; padding:22px 16px; color:var(--text-faint); font-size:12px; border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="1772741208119.png" alt="Afahjoy International School logo" class="brand-logo">Afahjoy</a>
+    <a href="index.html" class="back-link">← Back to site</a>
+  </div>
+</header>
+
+<main>
+  <div class="game-shell">
+    <div class="game-head">
+      <h1>Tic Tac Toe</h1>
+      <p>Take a quick break — challenge a friend or play vs the computer</p>
+    </div>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="pvp">👥 2 Players</button>
+      <button class="mode-tab" data-mode="cpu">🤖 Vs Computer</button>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-card x" id="scoreXCard">
+        <div class="label">Player X</div>
+        <div class="value" id="scoreX">0</div>
+      </div>
+      <div class="score-card draw">
+        <div class="label">Draws</div>
+        <div class="value" id="scoreDraw">0</div>
+      </div>
+      <div class="score-card o" id="scoreOCard">
+        <div class="label" id="scoreOLabel">Player O</div>
+        <div class="value" id="scoreO">0</div>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">Player X's turn</div>
+
+    <div class="board" id="board"></div>
+
+    <div class="controls">
+      <button class="btn btn-ghost" id="resetScoresBtn">Reset Scores</button>
+      <button class="btn btn-primary" id="newRoundBtn">New Round</button>
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 Afahjoy International School. All Rights Reserved.</footer>
+
+<script>
+  const boardEl = document.getElementById('board');
+  const statusBar = document.getElementById('statusBar');
+  const scoreXEl = document.getElementById('scoreX');
+  const scoreOEl = document.getElementById('scoreO');
+  const scoreDrawEl = document.getElementById('scoreDraw');
+  const scoreXCard = document.getElementById('scoreXCard');
+  const scoreOCard = document.getElementById('scoreOCard');
+  const scoreOLabel = document.getElementById('scoreOLabel');
+  const modeTabs = document.querySelectorAll('.mode-tab');
+
+  let board = Array(9).fill(null);
+  let current = 'X';
+  let gameOver = false;
+  let mode = 'pvp'; // 'pvp' or 'cpu'
+  let scores = { X: 0, O: 0, draw: 0 };
+
+  const WIN_LINES = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  function renderBoard(){
+    boardEl.innerHTML = '';
+    board.forEach((val, i) => {
+      const cell = document.createElement('div');
+      cell.className = 'cell' + (val ? ' taken ' + val.toLowerCase() : '');
+      cell.textContent = val || '';
+      cell.dataset.index = i;
+      cell.addEventListener('click', () => handleMove(i));
+      boardEl.appendChild(cell);
+    });
+  }
+
+  function handleMove(i){
+    if (gameOver || board[i]) return;
+    if (mode === 'cpu' && current === 'O') return; // block manual O clicks in CPU mode
+
+    board[i] = current;
+    renderBoard();
+
+    const result = checkWinner();
+    if (result){
+      finishRound(result);
+      return;
+    }
+
+    current = current === 'X' ? 'O' : 'X';
+    updateStatus();
+
+    if (mode === 'cpu' && current === 'O' && !gameOver){
+      setTimeout(cpuMove, 400);
+    }
+  }
+
+  function cpuMove(){
+    if (gameOver) return;
+    const empty = board.map((v,i) => v ? null : i).filter(v => v !== null);
+    if (!empty.length) return;
+
+    // Try to win
+    let move = findBestCpuMove('O') ?? findBestCpuMove('X') ?? empty[Math.floor(Math.random()*empty.length)];
+    board[move] = 'O';
+    renderBoard();
+
+    const result = checkWinner();
+    if (result){
+      finishRound(result);
+      return;
+    }
+    current = 'X';
+    updateStatus();
+  }
+
+  function findBestCpuMove(sym){
+    for (const line of WIN_LINES){
+      const vals = line.map(i => board[i]);
+      const symCount = vals.filter(v => v === sym).length;
+      const emptyIdx = line.filter(i => !board[i]);
+      if (symCount === 2 && emptyIdx.length === 1) return emptyIdx[0];
+    }
+    return null;
+  }
+
+  function checkWinner(){
+    for (const line of WIN_LINES){
+      const [a,b,c] = line;
+      if (board[a] && board[a] === board[b] && board[b] === board[c]){
+        return { winner: board[a], line };
+      }
+    }
+    if (board.every(v => v)) return { winner: 'draw' };
+    return null;
+  }
+
+  function finishRound(result){
+    gameOver = true;
+    if (result.winner === 'draw'){
+      scores.draw++;
+      statusBar.textContent = "It's a draw!";
+      statusBar.classList.remove('win');
+    } else {
+      scores[result.winner]++;
+      statusBar.textContent = (mode === 'cpu' && result.winner === 'O' ? 'Computer' : 'Player ' + result.winner) + ' wins!';
+      statusBar.classList.add('win');
+      result.line.forEach(i => {
+        boardEl.children[i].classList.add('win-cell');
+      });
+    }
+    updateScoreboard();
+  }
+
+  function updateStatus(){
+    if (gameOver) return;
+    const label = mode === 'cpu' && current === 'O' ? "Computer's turn" : "Player " + current + "'s turn";
+    statusBar.textContent = label;
+    statusBar.classList.remove('win');
+  }
+
+  function updateScoreboard(){
+    scoreXEl.textContent = scores.X;
+    scoreOEl.textContent = scores.O;
+    scoreDrawEl.textContent = scores.draw;
+  }
+
+  function newRound(){
+    board = Array(9).fill(null);
+    current = 'X';
+    gameOver = false;
+    renderBoard();
+    updateStatus();
+  }
+
+  function resetScores(){
+    scores = { X: 0, O: 0, draw: 0 };
+    updateScoreboard();
+    newRound();
+  }
+
+  modeTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      modeTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      mode = tab.dataset.mode;
+      scoreOLabel.textContent = mode === 'cpu' ? 'Computer' : 'Player O';
+      resetScores();
+    });
+  });
+
+  document.getElementById('newRoundBtn').addEventListener('click', newRound);
+  document.getElementById('resetScoresBtn').addEventListener('click', resetScores);
+
+  renderBoard();
+  updateStatus();
+</script>
+
+</body>
+  </html>
+  
