@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Afahjoy International School</title>
+<link rel="icon" type="image/png" href="1772741208119.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0a;--card:#161616;--card-2:#101010;--border:#2a2a2a;--yellow:#f7c600;--text:#f4f6fb;--text-dim:#9aa4c0;--text-faint:#6b6b6b;--radius:18px;--red:#ff5c5c;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+  h1,h2,.brand{font-family:'Sora',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;}
+  header{position:sticky;top:0;z-index:50;padding:14px 16px;background:rgba(10,10,10,0.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;color:var(--yellow);background:var(--card);border:1px solid var(--border);padding:7px 16px 7px 7px;border-radius:999px;}
+  .brand-logo{width:26px;height:26px;border-radius:8px;object-fit:cover;}
+  .signout-btn{font-size:13px;font-weight:700;color:#0a0a0a;background:var(--yellow);padding:9px 18px;border-radius:999px;border:none;cursor:pointer;}
+  .gate{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;gap:14px;padding:20px;}
+  .gate .spin{width:26px;height:26px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--yellow);animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  main{padding:36px 0 60px;display:none;}
+  .welcome{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:22px;}
+  .welcome .role-tag{font-size:11.5px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.06em;}
+  .welcome h1{font-size:24px;font-weight:800;margin-top:8px;}
+  .welcome p{color:var(--text-dim);font-size:13.5px;margin-top:6px;}
+
+  .section-block{margin-top:30px;}
+  .section-block .head{margin-bottom:16px;}
+  .section-block .head h2{font-size:19px;font-weight:800;}
+  .section-block .head p{color:var(--text-dim);font-size:12.5px;margin-top:4px;}
+
+  .composer{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:22px;}
+  .type-pills{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .type-pill{border:1px solid var(--border);background:var(--card-2);color:var(--text-dim);font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+  .type-pill.active{background:rgba(247,198,0,0.12);border-color:var(--yellow);color:var(--yellow);}
+
+  .composer form{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .composer .field-full{grid-column:1 / -1;}
+  .composer label{display:block;font-size:12px;font-weight:600;color:var(--text-dim);margin-bottom:6px;}
+  .composer input{width:100%;background:var(--card-2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:13.5px;font-family:inherit;}
+  .composer input:focus{outline:none;border-color:var(--yellow);}
+  .field-hidden{display:none !important;}
+  .composer .field-full.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:2px;}
+  .btn-create{background:var(--yellow);color:#0a0a0a;border:none;font-weight:700;font-size:13.5px;padding:12px 22px;border-radius:999px;cursor:pointer;}
+  .btn-create:hover{background:#ffd633;}
+  .btn-create:disabled{opacity:.6;cursor:default;}
+
+  .status-msg{display:none;margin-top:14px;padding:11px 14px;border-radius:12px;font-size:12.5px;font-weight:600;text-align:left;}
+  .status-msg.show{display:block;}
+  .status-msg.error{background:rgba(255,92,92,0.1);color:var(--red);border:1px solid rgba(255,92,92,0.3);}
+  .status-msg.success{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
+  .status-msg .cred-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(0,0,0,0.25);border-radius:8px;padding:8px 10px;margin-top:8px;font-family:'Sora',sans-serif;font-size:13px;}
+  .status-msg .copy-btn{background:var(--yellow);color:#0a0a0a;border:none;font-weight:700;font-size:11px;padding:5px 10px;border-radius:999px;cursor:pointer;}
+
+  .filter-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .filter-chip{border:1px solid var(--border);background:transparent;color:var(--text-dim);font-weight:600;font-size:12px;padding:7px 13px;border-radius:999px;cursor:pointer;}
+  .filter-chip.active{background:var(--card);color:var(--text);border-color:var(--yellow);}
+
+  .acct-list{display:flex;flex-direction:column;gap:8px;}
+  .acct-row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
+  .acct-row .initial{width:34px;height:34px;border-radius:50%;background:rgba(247,198,0,0.14);color:var(--yellow);font-family:'Sora',sans-serif;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .acct-row .ar-info{flex:1;min-width:0;}
+  .acct-row .ar-name{font-size:13px;font-weight:700;}
+  .acct-row .ar-meta{font-size:11px;color:var(--text-faint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .acct-row .ar-id{font-family:'Sora',sans-serif;font-weight:800;font-size:12.5px;color:var(--yellow);background:rgba(247,198,0,0.1);padding:5px 10px;border-radius:999px;white-space:nowrap;}
+  .acct-row .ar-role{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,0.06);color:var(--text-dim);white-space:nowrap;}
+  .empty-state{color:var(--text-faint);font-size:13px;text-align:center;padding:28px 12px;border:1px dashed var(--border);border-radius:14px;}
+
+  @media (max-width:600px){.composer form{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="1772741208119.png" alt="logo" class="brand-logo">Afahjoy Portal</a>
+    <button class="signout-btn" id="signOutBtn">Sign Out</button>
+  </div>
+</header>
+
+<div class="gate" id="gate">
+  <div class="spin"></div>
+  <p style="color:var(--text-dim);font-size:13.5px;">Checking your session…</p>
+</div>
+
+<main id="main" class="wrap">
+  <div class="welcome">
+    <div class="role-tag">🛡️ Admin Dashboard</div>
+    <h1 id="welcomeName">Welcome back</h1>
+    <p id="welcomeEmail"></p>
+  </div>
+
+  <div class="section-block">
+    <div class="head">
+      <h2>Add an Account</h2>
+      <p>Every new account gets an auto-generated ID (e.g. AIS-0001) — that ID is also their login password.</p>
+    </div>
+
+    <div class="composer">
+      <div class="type-pills" id="typePills">
+        <button type="button" class="type-pill active" data-role="teacher">🍎 Teacher</button>
+        <button type="button" class="type-pill" data-role="student">🎓 Student</button>
+        <button type="button" class="type-pill" data-role="parent">👪 Parent</button>
+      </div>
+      <form id="addForm">
+        <div>
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="e.g. Ama Serwaa" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="e.g. person@afahjoyintlschool.com" required>
+        </div>
+        <div class="field-full" id="classLevelField">
+          <label for="classLevel">Class Level</label>
+          <input type="text" id="classLevel" placeholder="e.g. KG 1, Basic 4, JHS 2, SHS 3">
+        </div>
+        <div class="field-full actions">
+          <button type="submit" class="btn-create" id="createBtn">Create Account</button>
+        </div>
+      </form>
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="head">
+      <h2>All Accounts</h2>
+      <p>Everyone you've added so far.</p>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="teacher">Teachers</button>
+      <button class="filter-chip" data-filter="student">Students</button>
+      <button class="filter-chip" data-filter="parent">Parents</button>
+    </div>
+    <div class="acct-list" id="acctList">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, collection, getDocs,
+    query, where, orderBy, runTransaction, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6ynei8tN-7tQ_3B73ytmZRO88vX7unME",
+    authDomain: "ais-website-547fa.firebaseapp.com",
+    projectId: "ais-website-547fa",
+    storageBucket: "ais-website-547fa.firebasestorage.app",
+    messagingSenderId: "409215745472",
+    appId: "1:409215745472:web:e9959ecbe6f0c954b79c25",
+    measurementId: "G-2JGW9LWZW9"
+  };
+
+  const REQUIRED_ROLE = 'admin';
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Secondary app instance: lets us create new accounts without signing the admin out
+  const secondaryApp = initializeApp(firebaseConfig, 'Secondary');
+  const secondaryAuth = getAuth(secondaryApp);
+
+  const gate = document.getElementById('gate');
+  const main = document.getElementById('main');
+  gate.style.display = 'flex';
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user){
+      window.location.href = 'login.html';
+      return;
+    }
+    try{
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (!snap.exists() || snap.data().role !== REQUIRED_ROLE){
+        window.location.href = 'login.html';
+        return;
+      }
+      const data = snap.data();
+      document.getElementById('welcomeName').textContent = 'Welcome, ' + (data.name || 'Admin');
+      document.getElementById('welcomeEmail').textContent = user.email;
+      gate.style.display = 'none';
+      main.style.display = 'block';
+      loadAccounts();
+    }catch(e){
+      window.location.href = 'login.html';
+    }
+  });
+
+  document.getElementById('signOutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = 'login.html';
+  });
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  /* ---------- Add Account ---------- */
+  let selectedRole = 'teacher';
+  const typePills = document.querySelectorAll('.type-pill');
+  const classLevelField = document.getElementById('classLevelField');
+  const addForm = document.getElementById('addForm');
+  const createBtn = document.getElementById('createBtn');
+  const statusMsg = document.getElementById('statusMsg');
+
+  function updateFieldsForRole(){
+    classLevelField.classList.toggle('field-hidden', selectedRole !== 'student');
+  }
+  updateFieldsForRole();
+
+  typePills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      typePills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      selectedRole = pill.dataset.role;
+      updateFieldsForRole();
+      hideStatus();
+    });
+  });
+
+  function showStatus(html, type){
+    statusMsg.innerHTML = html;
+    statusMsg.className = 'status-msg show ' + type;
+  }
+  function hideStatus(){
+    statusMsg.className = 'status-msg';
+  }
+
+  // Atomically get the next AIS-#### id from a Firestore counter doc
+  async function getNextId(){
+    const counterRef = doc(db, 'meta', 'idCounter');
+    const nextNumber = await runTransaction(db, async (tx) => {
+      const snap = await tx.get(counterRef);
+      const current = snap.exists() ? (snap.data().lastNumber || 0) : 0;
+      const next = current + 1;
+      tx.set(counterRef, { lastNumber: next }, { merge: true });
+      return next;
+    });
+    return 'AIS-' + String(nextNumber).padStart(4, '0');
+  }
+
+  addForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideStatus();
+
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const classLevel = document.getElementById('classLevel').value.trim();
+
+    if (selectedRole === 'student' && !classLevel){
+      showStatus('Enter a class level for this student.', 'error');
+      return;
+    }
+
+    createBtn.disabled = true;
+    createBtn.textContent = 'Creating…';
+
+    try{
+      const newId = await getNextId();
+
+      // Create the Auth account on the secondary app so the admin's own session is untouched
+      const cred = await createUserWithEmailAndPassword(secondaryAuth, email, newId);
+      const newUid = cred.user.uid;
+      await signOut(secondaryAuth);
+
+      const userDoc = {
+        role: selectedRole,
+        name: name,
+        email: email,
+        studentId: newId,
+        createdAt: serverTimestamp()
+      };
+      if (selectedRole === 'student'){
+        userDoc.classLevel = classLevel;
+      }
+
+      await setDoc(doc(db, 'users', newUid), userDoc);
+
+      showStatus(`
+        <div>✅ Account created for <strong>${escapeHtml(name)}</strong></div>
+        <div class="cred-row">
+          <span>${escapeHtml(email)} · ${newId}</span>
+          <button type="button" class="copy-btn" id="copyCredBtn">Copy</button>
+        </div>
+        <div style="margin-top:6px;font-weight:500;">Share the email and ID (${newId}) with them — the ID is also their login password.</div>
+      `, 'success');
+
+      document.getElementById('copyCredBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(`Email: ${email}\nPassword (ID): ${newId}`);
+      });
+
+      addForm.reset();
+      updateFieldsForRole();
+      loadAccounts();
+    }catch(err){
+      let msg = 'Could not create account. Please try again.';
+      if (err.code === 'auth/email-already-in-use') msg = 'That email is already registered.';
+      if (err.code === 'auth/invalid-email') msg = 'That email address looks invalid.';
+      showStatus(msg, 'error');
+    }finally{
+      createBtn.disabled = false;
+      createBtn.textContent = 'Create Account';
+    }
+  });
+
+  /* ---------- All Accounts ---------- */
+  let allAccounts = [];
+  let activeFilter = 'all';
+  const acctList = document.getElementById('acctList');
+  const filterChips = document.querySelectorAll('.filter-chip');
+
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.dataset.filter;
+      renderAccounts();
+    });
+  });
+
+  async function loadAccounts(){
+    try{
+      const q = query(
+        collection(db, 'users'),
+        where('role', 'in', ['teacher', 'student', 'parent']),
+        orderBy('createdAt', 'desc')
+      );
+      const snap = await getDocs(q);
+      allAccounts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderAccounts();
+    }catch(e){
+      acctList.innerHTML = '<div class="empty-state">Could not load accounts right now.</div>';
+    }
+  }
+
+  function renderAccounts(){
+    const filtered = activeFilter === 'all' ? allAccounts : allAccounts.filter(a => a.role === activeFilter);
+    if (!filtered.length){
+      acctList.innerHTML = '<div class="empty-state">No accounts yet — add one above.</div>';
+      return;
+    }
+    acctList.innerHTML = filtered.map(a => `
+      <div class="acct-row">
+        <div class="initial">${escapeHtml((a.name || a.email || '?').charAt(0).toUpperCase())}</div>
+        <div class="ar-info">
+          <div class="ar-name">${escapeHtml(a.name || 'Unnamed')}</div>
+          <div class="ar-meta">${escapeHtml(a.email || '')}${a.classLevel ? ' · ' + escapeHtml(a.classLevel) : ''}</div>
+        </div>
+        <span class="ar-role">${escapeHtml(a.role)}</span>
+        <span class="ar-id">${escapeHtml(a.studentId || '—')}</span>
+      </div>
+    `).join('');
+  }
+</script>
+
+</body>
+  </html>
+  
