@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Login | Afahjoy International School</title>
+<link rel="icon" type="image/png" href="1772741208119.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0a; --card: #161616; --card-2: #101010; --border: #2a2a2a;
+    --yellow: #f7c600; --black-2: #1a1a1a; --text: #f4f6fb; --text-dim: #9aa4c0;
+    --text-faint: #6b6b6b; --radius: 18px; --red: #ff5c5c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg); color:var(--text); font-family:'Plus Jakarta Sans', sans-serif; min-height:100vh; overflow-x:hidden;}
+  h1,h2,.brand{font-family:'Sora', sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;}
+
+  .shell{min-height:100vh; display:grid; grid-template-columns:1fr;}
+  .brand-panel{
+    display:none; position:relative; overflow:hidden;
+    background:radial-gradient(circle at 20% 20%, rgba(247,198,0,0.12), transparent 55%), var(--card-2);
+    border-right:1px solid var(--border); padding:48px 44px; flex-direction:column; justify-content:space-between;
+  }
+  .brand-panel::before{content:""; position:absolute; inset:0; background-image:radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px); background-size:24px 24px;}
+  .bp-top{position:relative; z-index:1;}
+  .bp-logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px; color:var(--yellow);}
+  .bp-logo-img{width:34px; height:34px; border-radius:10px; object-fit:cover;}
+  .bp-headline{margin-top:56px; font-size:32px; font-weight:800; line-height:1.18; max-width:380px;}
+  .bp-headline span{color:var(--yellow);}
+  .bp-sub{margin-top:14px; color:var(--text-dim); font-size:14.5px; max-width:340px; line-height:1.6;}
+  .bp-features{position:relative; z-index:1; display:flex; flex-direction:column; gap:14px; margin-top:40px;}
+  .bp-feature{display:flex; align-items:center; gap:12px; font-size:13.5px; color:var(--text-dim);}
+  .bp-feature .ic{width:32px; height:32px; border-radius:10px; background:rgba(247,198,0,0.12); color:var(--yellow); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+  .bp-foot{position:relative; z-index:1; font-size:11.5px; color:var(--text-faint);}
+
+  .form-panel{display:flex; flex-direction:column; min-height:100vh;}
+  .fp-top{padding:16px; display:flex; justify-content:space-between; align-items:center;}
+  .mobile-brand{display:flex; align-items:center; gap:8px; font-weight:800; font-size:18px; color:var(--yellow);}
+  .mobile-brand img{width:26px;height:26px;border-radius:8px;object-fit:cover;}
+  .back-link{font-size:13px; font-weight:600; color:var(--text-dim); padding:8px 14px; border-radius:999px; border:1px solid var(--border);}
+  .back-link:hover{color:var(--text); border-color:var(--yellow);}
+
+  .fp-center{flex:1; display:flex; align-items:center; justify-content:center; padding:20px 20px 40px;}
+  .login-shell{width:100%; max-width:400px;}
+  .login-head{margin-bottom:22px;}
+  .login-head .eyebrow{font-size:11.5px; font-weight:700; color:var(--yellow); text-transform:uppercase; letter-spacing:.08em;}
+  .login-head h1{font-size:24px; font-weight:800; margin-top:8px;}
+  .login-head p{color:var(--text-dim); font-size:13.5px; margin-top:6px;}
+
+  .role-select{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px;}
+  .role-card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 6px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; transition:.18s;}
+  .role-card .ic{font-size:19px;}
+  .role-card span{font-size:11.5px; font-weight:700; color:var(--text-dim);}
+  .role-card:hover{border-color:var(--yellow);}
+  .role-card.active{background:rgba(247,198,0,0.1); border-color:var(--yellow);}
+  .role-card.active span{color:var(--yellow);}
+
+  .login-card{background:var(--card); border:1px solid var(--border); border-radius:22px; padding:24px;}
+  form{display:flex; flex-direction:column; gap:14px;}
+  .field{position:relative;}
+  .field label{display:block; font-size:12px; font-weight:600; color:var(--text-dim); margin-bottom:7px;}
+  .field .input-wrap{position:relative; display:flex; align-items:center;}
+  .field .fic{position:absolute; left:14px; font-size:15px; color:var(--text-faint); pointer-events:none;}
+  .field input{width:100%; background:var(--card-2); border:1px solid var(--border); border-radius:12px; padding:13px 14px 13px 40px; color:var(--text); font-size:14px; font-family:inherit;}
+  .field input:focus{outline:none; border-color:var(--yellow);}
+  .field input::placeholder{color:var(--text-faint);}
+  .toggle-pass{position:absolute; right:12px; background:none; border:none; color:var(--text-faint); font-size:13px; cursor:pointer; font-weight:600;}
+  .toggle-pass:hover{color:var(--yellow);}
+
+  .row-between{display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--text-dim);}
+  .row-between label{display:flex; align-items:center; gap:6px; cursor:pointer;}
+  .row-between a{color:var(--yellow); font-weight:600; cursor:pointer;}
+
+  .btn-submit{margin-top:2px; background:var(--yellow); color:#0a0a0a; border:none; font-weight:700; font-size:14.5px; padding:14px; border-radius:999px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;}
+  .btn-submit:hover{background:#ffd633;}
+  .btn-submit:disabled{opacity:.7; cursor:default;}
+  .spinner{width:15px; height:15px; border-radius:50%; border:2px solid rgba(10,10,10,0.25); border-top-color:#0a0a0a; animation:spin .7s linear infinite; display:none;}
+  .btn-submit.loading .spinner{display:inline-block;}
+  .btn-submit.loading .btn-label{display:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .status-msg{display:none; margin-top:14px; padding:11px 14px; border-radius:12px; font-size:12.5px; font-weight:600; text-align:center;}
+  .status-msg.show{display:flex; align-items:center; justify-content:center; gap:6px;}
+  .status-msg.info{background:rgba(247,198,0,0.1); color:var(--yellow); border:1px solid rgba(247,198,0,0.3);}
+  .status-msg.error{background:rgba(255,92,92,0.1); color:var(--red); border:1px solid rgba(255,92,92,0.3);}
+  .status-msg.success{background:rgba(34,197,94,0.1); color:#4ade80; border:1px solid rgba(34,197,94,0.3);}
+
+  .helper-note{margin-top:16px; text-align:center; font-size:11.5px; color:var(--text-faint); line-height:1.6;}
+  .helper-note a{color:var(--yellow); font-weight:600;}
+  .fp-footer{text-align:center; padding:16px; font-size:11px; color:var(--text-faint);}
+
+  @media (min-width:900px){
+    .shell{grid-template-columns:1fr 1fr;}
+    .brand-panel{display:flex;}
+    .fp-top{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="brand-panel">
+    <div class="bp-top">
+      <div class="bp-logo"><img src="1772741208119.png" alt="Afahjoy logo" class="bp-logo-img">Afahjoy Portal</div>
+      <h1 class="bp-headline">One portal for <span>every</span> part of school life.</h1>
+      <p class="bp-sub">Teachers, students, and parents — all connected to Afahjoy International School in one place.</p>
+    </div>
+    <div class="bp-features">
+      <div class="bp-feature"><div class="ic">📊</div>Grades &amp; report cards, always up to date</div>
+      <div class="bp-feature"><div class="ic">🗓️</div>Timetables, assignments &amp; attendance</div>
+      <div class="bp-feature"><div class="ic">🔔</div>Real-time updates from the school</div>
+    </div>
+    <div class="bp-foot">© 2026 Afahjoy International School</div>
+  </aside>
+
+  <div class="form-panel">
+    <div class="fp-top">
+      <a href="index.html" class="mobile-brand"><img src="1772741208119.png" alt="Afahjoy logo">Afahjoy</a>
+      <a href="index.html" class="back-link">← Back</a>
+    </div>
+
+    <div class="fp-center">
+      <div class="login-shell">
+        <div class="login-head">
+          <div class="eyebrow">Afahjoy Portal</div>
+          <h1 id="roleTitle">Teacher Login</h1>
+          <p id="roleSub">Access your classes, register &amp; gradebook</p>
+        </div>
+
+        <div class="role-select" role="tablist">
+          <div class="role-card active" data-role="teacher" role="tab" aria-selected="true"><span class="ic">🍎</span><span>Teacher</span></div>
+          <div class="role-card" data-role="student" role="tab" aria-selected="false"><span class="ic">🎓</span><span>Student</span></div>
+          <div class="role-card" data-role="parent" role="tab" aria-selected="false"><span class="ic">👪</span><span>Parent</span></div>
+          <div class="role-card" data-role="admin" role="tab" aria-selected="false"><span class="ic">🛡️</span><span>Admin</span></div>
+        </div>
+
+        <div class="login-card">
+          <form id="loginForm">
+            <div class="field">
+              <label id="idLabel" for="loginEmail">Email</label>
+              <div class="input-wrap">
+                <span class="fic">👤</span>
+                <input type="email" id="loginEmail" placeholder="e.g. staff@afahjoyintlschool.com" required autocomplete="username">
+              </div>
+            </div>
+            <div class="field">
+              <label for="loginPass">Password</label>
+              <div class="input-wrap">
+                <span class="fic">🔒</span>
+                <input type="password" id="loginPass" placeholder="Enter your password" required autocomplete="current-password">
+                <button type="button" class="toggle-pass" id="togglePass">Show</button>
+              </div>
+            </div>
+            <div class="row-between">
+              <label><input type="checkbox" id="rememberMe" style="accent-color:#f7c600;"> Remember me</label>
+              <a id="forgotLink">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span class="spinner"></span>
+              <span class="btn-label" id="submitLabel">Sign In as Teacher</span>
+            </button>
+            <div class="status-msg" id="statusMsg"></div>
+          </form>
+          <p class="helper-note">Trouble logging in? Contact the school office at<br><a href="mailto:contact@afahjoyintlschool.com">contact@afahjoyintlschool.com</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fp-footer">Afahjoy Portal · Built for staff, students &amp; families</div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import {
+    getAuth, signInWithEmailAndPassword, sendPasswordResetEmail,
+    setPersistence, browserLocalPersistence, browserSessionPersistence,
+    onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6ynei8tN-7tQ_3B73ytmZRO88vX7unME",
+    authDomain: "ais-website-547fa.firebaseapp.com",
+    projectId: "ais-website-547fa",
+    storageBucket: "ais-website-547fa.firebasestorage.app",
+    messagingSenderId: "409215745472",
+    appId: "1:409215745472:web:e9959ecbe6f0c954b79c25",
+    measurementId: "G-2JGW9LWZW9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const roles = {
+    teacher: { title:'Teacher Login', sub:'Access your classes, register & gradebook', idLabel:'Email', placeholder:'e.g. staff@afahjoyintlschool.com', btn:'Sign In as Teacher', dashboard:'teacher.html' },
+    student: { title:'Student Login', sub:'View your timetable, results & assignments', idLabel:'Email', placeholder:'e.g. student@afahjoyintlschool.com', btn:'Sign In as Student', dashboard:'student.html' },
+    parent:  { title:'Parent Login', sub:"Track your child's progress & school updates", idLabel:'Email', placeholder:'e.g. parent@email.com', btn:'Sign In as Parent', dashboard:'parent.html' },
+    admin:   { title:'Admin Login', sub:'Manage teacher, student & parent accounts', idLabel:'Email', placeholder:'e.g. admin@afahjoyintlschool.com', btn:'Sign In as Admin', dashboard:'admin.html' }
+  };
+
+  const roleCards = document.querySelectorAll('.role-card');
+  const roleTitle = document.getElementById('roleTitle');
+  const roleSub = document.getElementById('roleSub');
+  const idLabel = document.getElementById('idLabel');
+  const loginEmail = document.getElementById('loginEmail');
+  const loginPass = document.getElementById('loginPass');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitLabel = document.getElementById('submitLabel');
+  const statusMsg = document.getElementById('statusMsg');
+  const togglePass = document.getElementById('togglePass');
+  const forgotLink = document.getElementById('forgotLink');
+  const rememberMe = document.getElementById('rememberMe');
+
+  roleCards.forEach(card => {
+    card.addEventListener('click', () => {
+      roleCards.forEach(c => { c.classList.remove('active'); c.setAttribute('aria-selected','false'); });
+      card.classList.add('active');
+      card.setAttribute('aria-selected','true');
+      const r = roles[card.dataset.role];
+      roleTitle.textContent = r.title;
+      roleSub.textContent = r.sub;
+      idLabel.textContent = r.idLabel;
+      loginEmail.placeholder = r.placeholder;
+      submitLabel.textContent = r.btn;
+      hideStatus();
+    });
+  });
+
+  togglePass.addEventListener('click', () => {
+    const isPass = loginPass.type === 'password';
+    loginPass.type = isPass ? 'text' : 'password';
+    togglePass.textContent = isPass ? 'Hide' : 'Show';
+  });
+
+  function showStatus(text, type){
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-msg show ' + type;
+  }
+  function hideStatus(){
+    statusMsg.className = 'status-msg';
+  }
+  function setLoading(loading){
+    submitBtn.classList.toggle('loading', loading);
+    submitBtn.disabled = loading;
+  }
+
+  forgotLink.addEventListener('click', async () => {
+    const email = loginEmail.value.trim();
+    if (!email){
+      showStatus('Enter your email above first, then tap "Forgot password?"', 'error');
+      return;
+    }
+    try{
+      await sendPasswordResetEmail(auth, email);
+      showStatus('Password reset email sent to ' + email, 'success');
+    }catch(err){
+      showStatus(friendlyError(err.code), 'error');
+    }
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideStatus();
+    setLoading(true);
+
+    const email = loginEmail.value.trim();
+    const password = loginPass.value;
+
+    try{
+      await setPersistence(auth, rememberMe.checked ? browserLocalPersistence : browserSessionPersistence);
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const uid = cred.user.uid;
+
+      const userDocRef = doc(db, 'users', uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()){
+        setLoading(false);
+        showStatus('Signed in, but no profile found in Firestore for this account. Contact the school office.', 'error');
+        await signOut(auth);
+        return;
+      }
+
+      const data = userDoc.data();
+      const actualRole = data.role;
+
+      if (!actualRole || !roles[actualRole]){
+        setLoading(false);
+        showStatus('Your account has no valid role set. Contact the school office.', 'error');
+        await signOut(auth);
+        return;
+      }
+
+      showStatus('Welcome back! Redirecting to your ' + actualRole + ' dashboard…', 'success');
+      setTimeout(() => {
+        window.location.href = roles[actualRole].dashboard;
+      }, 700);
+
+    }catch(err){
+      setLoading(false);
+      showStatus(friendlyError(err.code), 'error');
+    }
+  });
+
+  function friendlyError(code){
+    switch(code){
+      case 'auth/invalid-email': return 'That email address looks invalid.';
+      case 'auth/user-disabled': return 'This account has been disabled. Contact the school office.';
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential': return 'Incorrect email or password.';
+      case 'auth/too-many-requests': return 'Too many attempts. Please wait a moment and try again.';
+      case 'auth/network-request-failed': return 'Network error — check your connection and try again.';
+      default: return 'Something went wrong signing in. Please try again.';
+    }
+  }
+
+  // If already signed in, skip straight to their dashboard
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    try{
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (userDoc.exists() && roles[userDoc.data().role]){
+        window.location.href = roles[userDoc.data().role].dashboard;
+      }
+    }catch(_e){ /* stay on login page if lookup fails */ }
+  });
+</script>
+
+</body>
+</html>
