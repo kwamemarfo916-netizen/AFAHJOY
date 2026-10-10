@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard | Afahjoy International School</title>
+  <link rel="icon" type="image/png" href="1772741208119.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a0a0a; --card:#161616; --card-2:#101010; --border:#2a2a2a; --yellow:#f7c600; --text:#f4f6fb; --text-dim:#9aa4c0; --text-faint:#6b6b6b; --radius:18px; --green:#22c55e; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    h1,h2,h3,.brand{font-family:'Sora',sans-serif}
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1000px;margin:0 auto;padding:0 20px 40px}
+    header{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+    .brand{display:flex;align-items:center;gap:8px;padding:8px 16px 8px 8px;border:1px solid var(--border);background:var(--card);border-radius:999px;color:var(--yellow);font-weight:800;font-size:18px}
+    .brand-logo{width:26px;height:26px;border-radius:8px;object-fit:cover}
+    .signout-btn{border:none;background:var(--yellow);color:#0a0a0a;font-weight:700;padding:9px 18px;border-radius:999px;cursor:pointer}
+    .gate{display:flex;align-items:center;justify-content:center;min-height:70vh;flex-direction:column;gap:14px;color:var(--text-dim)}
+    .spin{width:24px;height:24px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--yellow);animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    main{display:none;padding:36px 0 16px}
+    .welcome{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:24px}
+    .role-tag{font-size:11.5px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.06em}
+    .welcome h1{margin-top:8px;font-size:28px;font-weight:800}
+    .welcome p{margin-top:6px;color:var(--text-dim);font-size:13.5px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .card .label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);font-weight:700}
+    .card .value{margin-top:12px;font-size:26px;font-weight:800;color:var(--yellow);font-family:'Sora',sans-serif}
+    .card .meta{margin-top:8px;color:var(--text-dim);font-size:12.5px;line-height:1.5}
+    .section{margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .section h2{font-size:18px;font-weight:800;margin-bottom:12px}
+    .list{display:flex;flex-direction:column;gap:12px}
+    .item{padding:12px 14px;border-radius:12px;background:var(--card-2);border:1px solid var(--border);color:var(--text-dim);font-size:13px;line-height:1.5}
+    @media (max-width:700px){ .grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="brand"><img src="1772741208119.png" alt="Afahjoy logo" class="brand-logo">Afahjoy Portal</a>
+      <button class="signout-btn" id="signOutBtn">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="gate" id="gate">
+    <div class="spin"></div>
+    <p>Checking your session…</p>
+  </div>
+
+  <main class="wrap" id="main">
+    <div class="welcome">
+      <div class="role-tag">Student Dashboard</div>
+      <h1 id="welcomeName">Welcome back</h1>
+      <p id="welcomeEmail">Loading profile…</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Timetable</div>
+        <div class="value">7</div>
+        <div class="meta">Classes scheduled for this week.</div>
+      </div>
+      <div class="card">
+        <div class="label">Assignments</div>
+        <div class="value">5</div>
+        <div class="meta">Open tasks to complete before the weekend.</div>
+      </div>
+      <div class="card">
+        <div class="label">Average</div>
+        <div class="value">88%</div>
+        <div class="meta">Your current performance score.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Next steps</h2>
+      <div class="list">
+        <div class="item">Submit your science assignment before Friday.</div>
+        <div class="item">Review notes for English literature class.</div>
+        <div class="item">Attend the Wednesday assembly and school program.</div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6ynei8tN-7tQ_3B73ytmZRO88vX7unME",
+      authDomain: "ais-website-547fa.firebaseapp.com",
+      projectId: "ais-website-547fa",
+      storageBucket: "ais-website-547fa.firebasestorage.app",
+      messagingSenderId: "409215745472",
+      appId: "1:409215745472:web:e9959ecbe6f0c954b79c25",
+      measurementId: "G-2JGW9LWZW9"
+    };
+
+    const REQUIRED_ROLE = 'student';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const gate = document.getElementById('gate');
+    const main = document.getElementById('main');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (!snap.exists() || snap.data().role !== REQUIRED_ROLE) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const data = snap.data();
+        document.getElementById('welcomeName').textContent = 'Welcome, ' + (data.name || 'Student');
+        document.getElementById('welcomeEmail').textContent = user.email;
+        gate.style.display = 'none';
+        main.style.display = 'block';
+      } catch (_e) {
+        window.location.href = 'login.html';
+      }
+    });
+
+    document.getElementById('signOutBtn').addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
